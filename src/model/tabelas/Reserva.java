@@ -39,7 +39,7 @@ public class Reserva {
 	
 	public long diarias() {
 		long diff = checkOut.getTime() - checkIn.getTime();
-		return TimeUnit.DAYS.convert(diff, TimeUnit.DAYS);
+		return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 	}
 	
 	public void atualizaDatas(Date checkIn, Date checkOut) {
