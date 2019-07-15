@@ -7,46 +7,47 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
+import model.exception.DomainException;
 import model.tabelas.Reserva;
 
 public class ProgramaExcecao {
 
-	public static void main(String[] args) throws ParseException {
+	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-		System.out.print("Número do Quarto: ");
-		int nQuarto = sc.nextInt();
-		System.out.print("Data de Check-In: ");
-		Date dCheckIn = sdf.parse(sc.next());
-		System.out.print("Data de Check-Out: ");
-		Date dCheckOut = sdf.parse(sc.next());
-
-		if (!dCheckOut.after(dCheckIn)) {
-			System.out.println("Erro na reserva! Data de Check-Out inferior a data de Check-In");
-		} else {
-			Reserva reserva = new Reserva(nQuarto, dCheckIn, dCheckOut);
+		try {
+			System.out.print("Número do Quarto: ");
+			int nQuarto = sc.nextInt();
+			System.out.print("Data de Check-In: ");
+			Date checkIn = sdf.parse(sc.next());
+			System.out.print("Data de Check-Out: ");
+			Date checkOut = sdf.parse(sc.next());
+	
+			Reserva reserva = new Reserva(nQuarto, checkIn, checkOut);
 			System.out.println("Reserva: " + reserva);
-
+	
 			System.out.println();
 			System.out.println();
 			System.out.println("Entre com os dados para atualizar a reserva:");
-
+	
 			System.out.print("Data de Check-In: ");
-			dCheckIn = sdf.parse(sc.next());
-
+			checkIn = sdf.parse(sc.next());
+	
 			System.out.print("Data de Check-Out: ");
-			dCheckOut = sdf.parse(sc.next());
-
-			String error = reserva.atualizaDatas(dCheckIn, dCheckOut);
-
-			if (error != null) {
-				System.out.println("Erro na reserva: " + error);
-			} 
-			else {
-				System.out.println("Atualização da Reserva: " + reserva);
-			}
-
+			checkOut = sdf.parse(sc.next());
+	
+			reserva.atualizaDatas(checkIn, checkOut);
+			System.out.println("Atualização da Reserva: " + reserva);
+		}
+		catch (ParseException e) {
+			System.out.println("Data inválida!");
+		}
+		catch (DomainException e) {
+			System.out.println("Erro em reserva:" + e.getMessage());
+		}
+		catch (RuntimeException e) {
+			System.out.println("Erro inexperado!");
 		}
 
 		sc.close();
