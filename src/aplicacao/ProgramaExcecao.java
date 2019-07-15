@@ -23,7 +23,7 @@ public class ProgramaExcecao {
 		Date dCheckOut = sdf.parse(sc.next());
 
 		if (!dCheckOut.after(dCheckIn)) {
-			System.out.println("Erro na reserva! Data de Check-Out superior a data de Check-In");
+			System.out.println("Erro na reserva! Data de Check-Out inferior a data de Check-In");
 		} else {
 			Reserva reserva = new Reserva(nQuarto, dCheckIn, dCheckOut);
 			System.out.println("Reserva: " + reserva);
@@ -38,18 +38,15 @@ public class ProgramaExcecao {
 			System.out.print("Data de Check-Out: ");
 			dCheckOut = sdf.parse(sc.next());
 
-			Date data = new Date();
+			String error = reserva.atualizaDatas(dCheckIn, dCheckOut);
 
-			if (dCheckIn.before(data) || dCheckOut.before(data)) {
-				System.out.println("Erro na reserva! As datas devem ser futuras");
-			}
-			else if (!dCheckOut.after(dCheckIn)) {
-				System.out.println("Erro na reserva! Data de Check-Out superior a data de Check-In");
-			}
+			if (error != null) {
+				System.out.println("Erro na reserva: " + error);
+			} 
 			else {
-				reserva.atualizaDatas(dCheckIn, dCheckOut);
 				System.out.println("Atualização da Reserva: " + reserva);
 			}
+
 		}
 
 		sc.close();

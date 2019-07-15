@@ -42,9 +42,21 @@ public class Reserva {
 		return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 	}
 	
-	public void atualizaDatas(Date checkIn, Date checkOut) {
+	public String atualizaDatas(Date checkIn, Date checkOut) {
+		
+		Date data = new Date();
+
+		if (checkIn.before(data) || checkOut.before(data)) {
+			return "As datas devem ser futuras";
+		}
+		if (!checkOut.after(checkIn)) {
+			return "Data de Check-Out superior a data de Check-In";
+		}
+		
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
+		
+		return null;
 	}
 
 	@Override
@@ -56,7 +68,8 @@ public class Reserva {
 				+ ", Check-Out: "
 				+ sdf.format(checkOut)
 				+ ", "
-				+ diarias();
+				+ diarias()
+				+ " diárias";
 	}
 	
 	
